@@ -1,0 +1,3 @@
+romimage: /usr/local/bochs/share/bochs/BIOS-bochs-latest
+ata2-slave:  type=cdrom, path=../union.iso, status=inserted
+megs: 2
