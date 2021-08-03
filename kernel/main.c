@@ -14,11 +14,6 @@ int main() {
     char *string = "VXenoware, Union OS is licensed under MPL v2.0";
     char *video = (char *) 0xb8000;
 
-<<<<<<< HEAD
-    asm volatile("xchg bx, bx");
-=======
-
->>>>>>> parent of 0c7ad96 (ddd)
     *video = (char)asm_add(32, 67);
 
     /*for(int ii = 0; true; ii++) {
