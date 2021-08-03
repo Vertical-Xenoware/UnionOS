@@ -15,7 +15,7 @@ readDiskStart:
     mov dh, 0x00
 
     int 0x13
-
+    xchg bx, bx
     jc error
 
     ;mov dx, [diskParameters]
@@ -30,8 +30,9 @@ sectors_error:
     call print
 
 error:
-    mov bx, SECTORS_ERROR
+    mov bx, errorStr
     call print
 
 diskParameters: dd 0    
 SECTORS_ERROR: db "Incorrect number of sectors read", 0
+errorStr: db "You are really screwed", 0
