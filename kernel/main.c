@@ -14,7 +14,7 @@ int main() {
     char *string = "VXenoware, Union OS is licensed under MPL v2.0";
     char *video = (char *) 0xb8000;
 
-    asm volatile("xchg bx, bx")
+    asm volatile("xchg bx, bx");
     *video = (char)asm_add(32, 67);
 
     /*for(int ii = 0; true; ii++) {
