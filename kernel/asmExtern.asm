@@ -7,16 +7,12 @@ section .text
 _start:
 asm_add:
 
-   
-    xchg bx, bx 
+    
 
     push ebp ;create new stack
     mov ebp, esp
-    xchg bx, bx
     mov eax, [ebp + 8] ;fetch paramenters
-    xchg bx, bx
     mov ebx, [ebp + 12]
-    xchg bx, bx
     add eax, ebx
     
     mov [fnReturn], eax
@@ -24,9 +20,7 @@ asm_add:
     mov esp, ebp
     pop ebp ;restore pre fn call stack
 
-    xchg bx, bx
     mov eax, [fnReturn]
-    xchg bx, bx
     ret
 
 section .data

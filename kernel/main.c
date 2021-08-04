@@ -1,5 +1,6 @@
 #define _extern_ extern int 
-#include <stdbool.h> 
+#include <stdbool.h>
+#include "drivers.h" 
 
 int main() {
 
@@ -8,14 +9,14 @@ int main() {
 
     int *op1 = &_1;
     int *op2 = &_2;
-
-    _extern_ asm_add(int arg1, int arg2);
     
-    char *string = "VXenoware, Union OS is licensed under MPL v2.0";
+    //char *string = "VXenoware, Union OS is licensed under MPL v2.0";
     char *video = (char *) 0xb8000;
 
+    unsigned short test = 2;
+    *video = portByteIn(test);
 
-    *video = asm_add((int)32, (int)32);
+    //*video = asm_add((int)32, (int)32);
     //asm volatile("xchg bx, bx");
     //*video = 32 + 32;
 
