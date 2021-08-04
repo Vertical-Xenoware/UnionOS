@@ -2,7 +2,21 @@
 [org 0x7c00]
 kernelLocation equ 0x1000
     
-    mov bp, 0x9000 ;set the stack
+    xor ax, ax
+    mov ds, ax
+    mov es, ax
+    mov bx, 0x9000
+    xchg bx, bx
+    cli
+
+    mov ss, bx
+    mov sp, ax
+    mov bp, sp 
+    sti
+    xchg bx, bx
+    cld
+    ;mov bp, 0x9000 ;set the stack
+    
     mov sp, bp
     mov [bootDrive], dl ;store boot drive for readDisk function 
     mov bx, bootString ;store bootString for print function

@@ -1,4 +1,4 @@
-#define _extern_ int extern 
+#define _extern_ extern int 
 #include <stdbool.h> 
 
 int main() {
@@ -14,8 +14,10 @@ int main() {
     char *string = "VXenoware, Union OS is licensed under MPL v2.0";
     char *video = (char *) 0xb8000;
 
-    asm volatile("xchg bx, bx");
-    *video = (char)asm_add(32, 67);
+
+    *video = asm_add((int)32, (int)32);
+    //asm volatile("xchg bx, bx");
+    //*video = 32 + 32;
 
     /*for(int ii = 0; true; ii++) {
         if(string[ii] != '\0') {

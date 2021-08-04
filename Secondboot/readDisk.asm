@@ -15,7 +15,7 @@ readDiskStart:
     mov dh, 0x00
 
     int 0x13
-    xchg bx, bx
+    ;xchg bx, bx
     jc error
 
     ;mov dx, [diskParameters]

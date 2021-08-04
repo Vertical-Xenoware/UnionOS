@@ -1,4 +1,4 @@
-[bits 32]
+;[bits 32]
 
 global asm_add
 global _start
@@ -7,27 +7,28 @@ section .text
 _start:
 asm_add:
 
-    xchg bx, bx
-
-    pusha
    
     xchg bx, bx 
- 
-    mov [base_pointer_store], ebp ;create new stack
+
+    push ebp ;create new stack
     mov ebp, esp
-    mov eax, [esp + 8] ;fetch paramenters
-    mov ebx, [esp + 12]
+    xchg bx, bx
+    mov eax, [ebp + 8] ;fetch paramenters
+    xchg bx, bx
+    mov ebx, [ebp + 12]
+    xchg bx, bx
     add eax, ebx
-    mov ebp, [base_pointer_store] ;restore pre fn call stack
     
     mov [fnReturn], eax
-    xchg bx, bx 
-    popa
+
+    mov esp, ebp
+    pop ebp ;restore pre fn call stack
+
     xchg bx, bx
     mov eax, [fnReturn]
     xchg bx, bx
     ret
 
-
+section .data
 base_pointer_store: dw 0
 fnReturn: dw 0
