@@ -24,4 +24,4 @@ debug:
 	nasm ./kernel/drivers/port.asm -f elf32 -o portasm.o
 	/usr/local/i386elfgcc/bin/i386-elf-gcc -g -ffreestanding -masm=intel -c ./kernel/main.c -o kernel.o
 	/usr/local/i386elfgcc/bin/i386-elf-gcc -g -ffreestanding -masm=intel -c ./kernel/drivers/port.c -o portc.o
-	/usr/local/i386elfgcc/bin/i386-elf-ld -o kernel.elf -Ttext 0x1000 kernel_entry.o kernel.o extern.o portc.o portasm.o
+	/usr/local/i386elfgcc/bin/i386-elf-ld -o ./bochsemu/kernel.elf -Ttext 0x1000 kernel_entry.o kernel.o extern.o portc.o portasm.o

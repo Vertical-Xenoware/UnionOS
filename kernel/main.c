@@ -4,31 +4,24 @@
 
 int main() {
 
-    int _1 = 4;
-    int _2 = 5;
-
-    int *op1 = &_1;
-    int *op2 = &_2;
     
-    //char *string = "VXenoware, Union OS is licensed under MPL v2.0";
-    char *video = (char *) 0xb8000;
+    portByteOut(0x3d4, 14);
+    
+    
+    int position = portByteIn(0x3d5);
+    position = position << 8;
 
-    unsigned short test = 2;
-    *video = portByteIn(test);
+    portByteOut(0x3d4, 15);
 
-    //*video = asm_add((int)32, (int)32);
-    //asm volatile("xchg bx, bx");
-    //*video = 32 + 32;
+    position += portByteIn(0x3d5);
 
-    /*for(int ii = 0; true; ii++) {
-        if(string[ii] != '\0') {
-            *video = string[ii];
-            video++;
-        } else
-        {
-            return 0;
-        }
-    }*/
-
+    int offset = position * 2;
+    char *string = "VX Project Union Initialized";
+    unsigned int metaCharacter;
+    char *video = 0xb8000;
+    for(unsigned int character = 0, metaCharacter = 1; video[offset + character] != '\0'; character += 2, metaCharacter += 2) {
+        video[offset + character] = string[character];
+        video[offset + metaCharacter] = 0x0f;
+    }
     return 0;
 }
