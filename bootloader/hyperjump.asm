@@ -6,6 +6,14 @@ hyperjump:
     call print
     call newLine
 
+    in al, 0x92
+    test al, 2
+    jnz after
+    or al, 2
+    and al, 0xFE
+    out 0x92, al
+    after:
+
     cli
     lgdt [gdt_descriptor] ;load gdt
     mov eax, cr0
@@ -24,7 +32,7 @@ rainbowBridge:
     mov fs, ax
     mov gs, ax
 
-    mov ebp, 0x9000 ;reset stack
+    mov ebp, 0x8000 ;reset stack
     mov esp, ebp
 
     call protectedMode ;begin protection

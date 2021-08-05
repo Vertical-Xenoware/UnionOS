@@ -35,4 +35,4 @@ error:
 
 diskParameters: dd 0    
 SECTORS_ERROR: db "Incorrect number of sectors read", 0
-errorStr: db "You are really screwed", 0
+errorStr: db "Uh oh", 0

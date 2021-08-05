@@ -5,7 +5,7 @@ kernelLocation equ 0x1000
     xor ax, ax
     mov ds, ax
     mov es, ax
-    mov bx, 0x9000
+    mov bx, 0x8000
     cli
 
     mov ss, bx
@@ -53,7 +53,7 @@ kernelLocation equ 0x1000
 [bits 16]
 loader:
     mov bx, kernelLocation ;store read data into this address
-    mov dh, 16 ;sectors to read
+    mov dh, 32 ;sectors to read
     mov dl, [bootDrive] ;disk where image is present
     call readDisk ;call readDisk funciton
     ret
@@ -63,6 +63,7 @@ loader:
 protectedMode:
     mov ebx, pmString 
     call Print32
+    
     call kernelLocation ;control handoff to kernel
     jmp $
 
