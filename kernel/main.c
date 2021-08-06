@@ -18,10 +18,13 @@ int main() {
     int offset = position * 2;
     char *string = "VX Project Union Initialized";
     unsigned int metaCharacter;
-    char *video = 0xb8000;
-    for(unsigned int character = 0, metaCharacter = 1; video[offset + character] != '\0'; character += 2, metaCharacter += 2) {
-        video[offset + character] = string[character];
-        video[offset + metaCharacter] = 0x0f;
+    char *video = (char *)0xb8000;
+
+    for(int i = 0; string[i] != '\0'; i++) {
+        video[offset + (i * 2)] = string[i];
+        video[offset + (i * 2 + 1)] = 0x0f; 
+
     }
+
     return 0;
 }
