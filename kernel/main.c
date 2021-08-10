@@ -2,7 +2,15 @@
 #include <stdbool.h>
 #include "drivers.h" 
 
-int main() {
+void initPrint(int *cursorOffset, char *videoMemory, char *initString, int *attribute) {
+    for(int i = 0; initString[i] != '\0'; i++) {
+        videoMemory[*cursorOffset + (i * 2)] = initString[i];
+        videoMemory[*cursorOffset + (i * 2 + 1)] = *attribute; 
+
+    }
+}
+
+int main(void) {
 
     
     portByteOut(0x3d4, 14);
@@ -15,16 +23,15 @@ int main() {
 
     position += portByteIn(0x3d5);
 
-    int offset = position * 2;
+    int *offset; 
+    *offset = position * 2;
+    int *color;
+    *color = 0x0f;
     char *string = "VX Project Union Initialized";
-    unsigned int metaCharacter;
     char *video = (char *)0xb8000;
 
-    for(int i = 0; string[i] != '\0'; i++) {
-        video[offset + (i * 2)] = string[i];
-        video[offset + (i * 2 + 1)] = 0x0f; 
+    initPrint(offset, video, string, color);
 
-    }
 
     return 0;
 }
