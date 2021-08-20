@@ -34,4 +34,16 @@ newLineDone:
     popa
     ret
 
-bpStore: dw 0
+printSingle:
+    pusha
+    mov ah, 0x0e
+
+singleStart:
+
+    mov al, bl
+    int 0x10
+    
+    popa
+    ret
+
+

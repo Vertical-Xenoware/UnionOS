@@ -31,10 +31,55 @@ kernelLocation equ 0x1000
     call newLine
 
 
-    mov cx, 0fh ;time delay
-    mov dx, 4240h
-    mov ah, 86h
-    int 15h
+inputLoop:
+    mov di, inputString
+    mov ah, 0x00
+    int 16h
+
+    mov bl, al
+    call printSingle
+
+    cmp al, 13
+    je inputProcessor
+
+    mov [di], al
+
+    jmp inputLoop
+
+inputProcessor:
+    call newLine
+    cmp [di], byte 0x62
+    je sectorInputLoopStart
+    jne inputLoop
+
+sectorInputLoopStart:
+    mov bx, sectorString
+    call print
+    call newLine
+
+sectorInputLoop:
+    mov di, inputString
+    mov ah, 0x00
+    int 16h
+
+    mov bl, al
+    call printSingle
+
+    cmp al, 13
+    je sectorinputProcessor
+
+    mov [di], al
+
+    jmp sectorInputLoop
+
+sectorinputProcessor:
+    call newLine
+    cmp [di], byte 0x6c
+    je continue
+    jne sectorInputLoop
+
+continue:
+
 
     mov bx, kernelLoadString ;store kernelLoadString for print function
     call print
@@ -68,11 +113,14 @@ protectedMode:
     jmp $
 
 
-bootString db "VX Bifrost ver 1.0.0", 0
-license db "Bifrost is licensed under MPL v2.0", 0
+bootString db "DiskCl Real", 0
+license db "h = help b = boot", 0
+sectorString db "l, 32. h, 64", 0
 kernelLoadString db "Reading Disk", 0
-pmString db "Protection enabled", 0
+pmString db "Protection", 0
 bootDrive db 0
+userInput db 0
+inputString db 0
 
 
 %include "./bootloader/printer.asm"
