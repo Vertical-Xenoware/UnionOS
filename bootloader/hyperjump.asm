@@ -1,5 +1,11 @@
 [bits 16]
 
+
+
+
+
+
+
 hyperjump:    
     
     mov bx, hyperString
@@ -38,3 +44,4 @@ rainbowBridge:
     call protectedMode ;begin protection
 
 hyperString: db "Hyperdrive Engaged", 0
+

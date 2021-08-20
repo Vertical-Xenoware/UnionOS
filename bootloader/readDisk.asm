@@ -1,5 +1,6 @@
 
 
+
 readDisk:
     pusha ;store all register values
     ;mov [diskParameters], dx
@@ -36,3 +37,4 @@ error:
 diskParameters: dd 0    
 SECTORS_ERROR: db "Incorrect number of sectors read", 0
 errorStr: db "Uh oh", 0
+

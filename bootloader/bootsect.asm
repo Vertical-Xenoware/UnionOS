@@ -1,7 +1,10 @@
 [bits 16]
-[org 0x7c00]
+;[org 0x7c00]
+
+
 kernelLocation equ 0x1000
-    
+
+
     xor ax, ax
     mov ds, ax
     mov es, ax
@@ -75,12 +78,20 @@ sectorInputLoop:
 sectorinputProcessor:
     call newLine
     cmp [di], byte 0x6c
-    je continue
+    je low
+    
+    cmp [di], byte 0x68
+    je high
     jne sectorInputLoop
 
+high:
+    mov [sectorsCount], byte 64
+    jmp continue
+low:
+    mov [sectorsCount], byte 32
+    jmp continue
+
 continue:
-
-
     mov bx, kernelLoadString ;store kernelLoadString for print function
     call print
     call newLine
@@ -98,7 +109,7 @@ continue:
 [bits 16]
 loader:
     mov bx, kernelLocation ;store read data into this address
-    mov dh, 32 ;sectors to read
+    mov dh, [sectorsCount] ;sectors to read
     mov dl, [bootDrive] ;disk where image is present
     call readDisk ;call readDisk funciton
     ret
@@ -106,8 +117,6 @@ loader:
 
 [bits 32]
 protectedMode:
-    mov ebx, pmString 
-    call Print32
     
     call kernelLocation ;control handoff to kernel
     jmp $
@@ -117,17 +126,17 @@ bootString db "DiskCl Real", 0
 license db "h = help b = boot", 0
 sectorString db "l, 32. h, 64", 0
 kernelLoadString db "Reading Disk", 0
-pmString db "Protection", 0
 bootDrive db 0
 userInput db 0
 inputString db 0
+sectorsCount db 0
 
 
 %include "./bootloader/printer.asm"
 %include "./bootloader/readDisk.asm"
 %include "./bootloader/hyperjump.asm"
 %include "./bootloader/gdt.asm"
-%include "./bootloader/32Printer.asm"
+;%include "./bootloader/32Printer.asm"
 
 times 510 - ($-$$) db 0
 dw 0xaa55
