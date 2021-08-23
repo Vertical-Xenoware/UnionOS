@@ -24,10 +24,6 @@ kernelLocation equ 0x1000
     call print
     call newLine
 
-    mov cx, 0fh ;time delay
-    mov dx, 4240h
-    mov ah, 86h
-    int 15h 
 
     mov bx, license ;store kernelLoadString for print function
     call print
@@ -96,11 +92,6 @@ continue:
     call print
     call newLine
 
-    mov cx, 0fh ;time delay
-    mov dx, 4240h
-    mov ah, 86h
-    int 15h 
-
     call loader ;call loader function
     call hyperjump ;begin hyperjump
 
@@ -117,7 +108,8 @@ loader:
 
 [bits 32]
 protectedMode:
-    
+    mov ebx, pmStr ;nitialize the VGA
+    call Print32
     call kernelLocation ;control handoff to kernel
     jmp $
 
@@ -126,6 +118,7 @@ bootString db "DiskCl Real", 0
 license db "h = help b = boot", 0
 sectorString db "l, 32. h, 64", 0
 kernelLoadString db "Reading Disk", 0
+pmStr db 0
 bootDrive db 0
 userInput db 0
 inputString db 0
@@ -136,7 +129,7 @@ sectorsCount db 0
 %include "./bootloader/readDisk.asm"
 %include "./bootloader/hyperjump.asm"
 %include "./bootloader/gdt.asm"
-;%include "./bootloader/32Printer.asm"
+%include "./bootloader/32Printer.asm"
 
 times 510 - ($-$$) db 0
 dw 0xaa55

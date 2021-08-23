@@ -27,7 +27,7 @@ int main(void) {
     *offset = position * 2;
     int *color;
     *color = 0x0f;
-    char *string = "VX Project Union Initialized";
+    char *string = "Diskclavier Prodigy Activated";
     char *video = (char *)0xb8000;
 
     initPrint(offset, video, string, color);

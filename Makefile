@@ -1,16 +1,16 @@
 
 default:
-	nasm ~/UnionOS/UnionOS/bootloader/kernelEntry.asm -f elf32 -o kernel_entry.o
-	nasm ~/UnionOS/UnionOS/kernel/asmExtern.asm -f elf32 -o extern.o
-	nasm ~/UnionOS/UnionOS/kernel/drivers/port.asm -f elf32 -o portasm.o
+	nasm ~/UnionOS/UnionOS/bootloader/kernelEntry.asm -f elf32 -g -o kernel_entry.o
+	nasm ~/UnionOS/UnionOS/kernel/asmExtern.asm -f elf32 -g -o extern.o
+	nasm ~/UnionOS/UnionOS/kernel/drivers/port.asm -f elf32 -g -o portasm.o
 	/usr/local/i386elfgcc/bin/i386-elf-gcc -ffreestanding -masm=intel -c -g ~/UnionOS/UnionOS/kernel/main.c -o kernel.o
 	/usr/local/i386elfgcc/bin/i386-elf-gcc -ffreestanding -masm=intel -c -g ~/UnionOS/UnionOS/kernel/drivers/port.c -o portc.o
 	/usr/local/i386elfgcc/bin/i386-elf-ld -o kernel.bin -Ttext 0x1000 kernel_entry.o kernel.o extern.o portc.o portasm.o --oformat binary 
-	/usr/local/i386elfgcc/bin/i386-elf-ld -o ~/UnionOS/UnionOS/bochsemu/kernel.elf -Ttext 0x1000 kernel_entry.o kernel.o extern.o portc.o portasm.o
+	/usr/local/i386elfgcc/bin/i386-elf-ld -o ~/UnionOS/UnionOS/kernel.elf -Ttext 0x1000 kernel_entry.o kernel.o extern.o portc.o portasm.o
 	
 	nasm ./bootloader/bootsect.asm -f elf -F dwarf -g -o bootsect.o
-	i386-elf-ld -o ~/UnionOS/UnionOS/bochsemu/bootsect.elf -Ttext 0x7c00 bootsect.o 
-	i386-elf-objcopy -O binary ~/UnionOS/UnionOS/bochsemu/bootsect.elf bootsect.bin
+	i386-elf-ld -o ~/UnionOS/UnionOS/bootsect.elf -Ttext 0x7c00 bootsect.o 
+	i386-elf-objcopy -O binary ~/UnionOS/UnionOS/bootsect.elf bootsect.bin
 	cat bootsect.bin kernel.bin > ./bochsemu/os-image.bin
 
 grub:
